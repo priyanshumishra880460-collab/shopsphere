@@ -1,0 +1,204 @@
+[
+  {
+    "id": "ORD-26034",
+    "userId": "user_cust_1",
+    "customerName": "Rahul Sharma",
+    "customerEmail": "customer@shopsphere.com",
+    "customerPhone": "+91 98765 43210",
+    "shippingAddress": {
+      "fullName": "Rahul Sharma",
+      "addressLine": "Flat 101, Palm Meadows",
+      "city": "Delhi",
+      "state": "India",
+      "pincode": "110001"
+    },
+    "items": [
+      {
+        "productId": "prod_2",
+        "name": "PulseTrack Ultra AMOLED Smartwatch",
+        "price": 2799,
+        "quantity": 1,
+        "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80"
+      }
+    ],
+    "subtotal": 2799,
+    "shippingFee": 0,
+    "tax": 504,
+    "total": 3303,
+    "paymentMethod": "UPI / Razorpay",
+    "paymentStatus": "PAID",
+    "transactionId": "TXN_MV14Z2ATW4VF",
+    "orderStatus": "Order Placed",
+    "trackingHistory": [
+      {
+        "status": "Order Placed",
+        "timestamp": "2026-10-09T15:44:43.138Z",
+        "notes": "Order confirmed and payment verified successfully."
+      }
+    ],
+    "estimatedDelivery": "12 Oct 2026",
+    "createdAt": "2026-10-09T15:44:43.138Z"
+  },
+  {
+    "id": "ORD-94021",
+    "userId": "user_cust_1",
+    "customerName": "Rahul Sharma",
+    "customerEmail": "customer@shopsphere.com",
+    "customerPhone": "+91 98765 43210",
+    "shippingAddress": {
+      "fullName": "Rahul Sharma",
+      "addressLine": "Flat 402, Skyline Residency, HSR Layout Sector 2",
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "pincode": "560102"
+    },
+    "items": [
+      {
+        "productId": "prod_1",
+        "name": "AeroSound Pro Wireless ANC Headphones",
+        "price": 3499,
+        "quantity": 1,
+        "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80"
+      },
+      {
+        "productId": "prod_4",
+        "name": "PrecisionGlide 4K Optical Ergonomic Mouse",
+        "price": 1899,
+        "quantity": 1,
+        "image": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&q=80"
+      }
+    ],
+    "subtotal": 5398,
+    "shippingFee": 0,
+    "tax": 971,
+    "total": 6369,
+    "paymentMethod": "UPI / Razorpay",
+    "paymentStatus": "PAID",
+    "transactionId": "TXN_RZP_881920381",
+    "orderStatus": "Shipped",
+    "trackingHistory": [
+      {
+        "status": "Order Placed",
+        "timestamp": "2026-10-07T14:22:00Z",
+        "notes": "Payment verified successfully."
+      },
+      {
+        "status": "Processing",
+        "timestamp": "2026-10-07T18:10:00Z",
+        "notes": "Packed and verified at Central Fulfillment Hub."
+      },
+      {
+        "status": "Shipped",
+        "timestamp": "2026-10-08T09:30:00Z",
+        "notes": "Dispatched via BlueDart Express (AWB: BD84920194)."
+      }
+    ],
+    "estimatedDelivery": "11 Oct 2026",
+    "createdAt": "2026-10-07T14:22:00Z"
+  },
+  {
+    "id": "ORD-89104",
+    "userId": "user_cust_1",
+    "customerName": "Rahul Sharma",
+    "customerEmail": "customer@shopsphere.com",
+    "customerPhone": "+91 98765 43210",
+    "shippingAddress": {
+      "fullName": "Rahul Sharma",
+      "addressLine": "Flat 402, Skyline Residency, HSR Layout Sector 2",
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "pincode": "560102"
+    },
+    "items": [
+      {
+        "productId": "prod_8",
+        "name": "Minimalist Urban Waterproof Commuter Backpack",
+        "price": 2299,
+        "quantity": 1,
+        "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80"
+      }
+    ],
+    "subtotal": 2299,
+    "shippingFee": 0,
+    "tax": 413,
+    "total": 2712,
+    "paymentMethod": "Credit / Debit Card",
+    "paymentStatus": "PAID",
+    "transactionId": "TXN_CARD_77491029",
+    "orderStatus": "Delivered",
+    "trackingHistory": [
+      {
+        "status": "Order Placed",
+        "timestamp": "2026-10-02T11:15:00Z",
+        "notes": "Payment confirmed."
+      },
+      {
+        "status": "Processing",
+        "timestamp": "2026-10-02T14:00:00Z",
+        "notes": "Order packaged."
+      },
+      {
+        "status": "Shipped",
+        "timestamp": "2026-10-03T10:00:00Z",
+        "notes": "Dispatched via Delhivery."
+      },
+      {
+        "status": "Out for Delivery",
+        "timestamp": "2026-10-05T08:30:00Z",
+        "notes": "Courier agent out for delivery."
+      },
+      {
+        "status": "Delivered",
+        "timestamp": "2026-10-05T16:45:00Z",
+        "notes": "Delivered to recipient with OTP."
+      }
+    ],
+    "estimatedDelivery": "Delivered on 5 Oct 2026",
+    "createdAt": "2026-10-02T11:15:00Z"
+  },
+  {
+    "id": "ORD-72941",
+    "userId": "user_cust_2",
+    "customerName": "Ananya Verma",
+    "customerEmail": "ananya.verma@example.com",
+    "customerPhone": "+91 99887 76655",
+    "shippingAddress": {
+      "fullName": "Ananya Verma",
+      "addressLine": "Plot 18, Sector 15, Vashi",
+      "city": "Navi Mumbai",
+      "state": "Maharashtra",
+      "pincode": "400703"
+    },
+    "items": [
+      {
+        "productId": "prod_3",
+        "name": "ZenBook Studio 4K Mechanical Keyboard",
+        "price": 4299,
+        "quantity": 1,
+        "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&q=80"
+      }
+    ],
+    "subtotal": 4299,
+    "shippingFee": 0,
+    "tax": 773,
+    "total": 5072,
+    "paymentMethod": "UPI / Netbanking",
+    "paymentStatus": "PAID",
+    "transactionId": "TXN_UPI_99201948",
+    "orderStatus": "Processing",
+    "trackingHistory": [
+      {
+        "status": "Order Placed",
+        "timestamp": "2026-10-09T08:45:00Z",
+        "notes": "Order received and verified."
+      },
+      {
+        "status": "Processing",
+        "timestamp": "2026-10-09T11:20:00Z",
+        "notes": "Item allocated in warehouse."
+      }
+    ],
+    "estimatedDelivery": "13 Oct 2026",
+    "createdAt": "2026-10-09T08:45:00Z"
+  }
+]

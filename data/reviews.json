@@ -1,0 +1,35 @@
+[
+  {
+    "id": "rev_1",
+    "productId": "prod_1",
+    "userId": "user_cust_1",
+    "userName": "Rahul Sharma",
+    "rating": 5,
+    "title": "Incredible Sound & Deep Bass!",
+    "comment": "The noise cancellation completely shuts out traffic and air conditioner noise. Battery easily lasts 4-5 days of heavy coding and calls.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-10-06T12:00:00Z"
+  },
+  {
+    "id": "rev_2",
+    "productId": "prod_1",
+    "userId": "user_cust_2",
+    "userName": "Sneha Patel",
+    "rating": 5,
+    "title": "Value for money ANC",
+    "comment": "Super comfortable memory foam cups. Does not press against ears even after 6 hours straight. Highly recommended.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-10-04T15:30:00Z"
+  },
+  {
+    "id": "rev_3",
+    "productId": "prod_3",
+    "userId": "user_cust_2",
+    "userName": "Ananya Verma",
+    "rating": 5,
+    "title": "Dream keyboard for developers",
+    "comment": "The creamy thocky sound out of the box is unmatched. Zero rattle on the spacebar. Beautiful RGB and solid heavy aluminum feel.",
+    "verifiedPurchase": true,
+    "createdAt": "2026-09-29T10:15:00Z"
+  }
+]

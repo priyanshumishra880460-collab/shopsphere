@@ -1,0 +1,32 @@
+[
+  {
+    "id": "user_admin_1",
+    "name": "Priyanshu Mishra",
+    "email": "admin@shopsphere.com",
+    "password": "$2b$10$kgjByMTAvcMlFXbxTav.beMrJ3c6PG9b7IVDiIUKOI1mmPae.wfQm",
+    "role": "admin",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80",
+    "phone": "+91 63880 46065",
+    "createdAt": "2026-08-01T00:00:00Z"
+  },
+  {
+    "id": "user_cust_1",
+    "name": "Rahul Sharma",
+    "email": "customer@shopsphere.com",
+    "password": "$2b$10$kgjByMTAvcMlFXbxTav.beQc/2E2uhWKu92OLPNG05WTFcmmPab.2",
+    "role": "customer",
+    "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&q=80",
+    "phone": "+91 98765 43210",
+    "createdAt": "2026-09-15T00:00:00Z"
+  },
+  {
+    "id": "user_cust_2",
+    "name": "Ananya Verma",
+    "email": "ananya.verma@example.com",
+    "password": "$2b$10$kgjByMTAvcMlFXbxTav.beQc/2E2uhWKu92OLPNG05WTFcmmPab.2",
+    "role": "customer",
+    "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80",
+    "phone": "+91 99887 76655",
+    "createdAt": "2026-09-20T00:00:00Z"
+  }
+]

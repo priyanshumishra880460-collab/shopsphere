@@ -1,0 +1,26 @@
+[
+  {
+    "id": "electronics",
+    "name": "Electronics & Gadgets",
+    "icon": "💻",
+    "count": 4
+  },
+  {
+    "id": "audio",
+    "name": "Audio & Wearables",
+    "icon": "🎧",
+    "count": 3
+  },
+  {
+    "id": "fashion",
+    "name": "Fashion & Apparel",
+    "icon": "👕",
+    "count": 3
+  },
+  {
+    "id": "home",
+    "name": "Home & Living",
+    "icon": "🏡",
+    "count": 2
+  }
+]

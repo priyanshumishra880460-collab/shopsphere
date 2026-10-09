@@ -1,0 +1,243 @@
+[
+  {
+    "id": "prod_1",
+    "name": "AeroSound Pro Wireless ANC Headphones",
+    "category": "audio",
+    "price": 3499,
+    "originalPrice": 7999,
+    "stock": 24,
+    "rating": 4.8,
+    "reviewsCount": 38,
+    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
+    "description": "Studio-grade Active Noise Cancellation headphones with 40mm titanium drivers, 40-hour ultra-long battery life, and Bluetooth 5.3 instant multi-point pairing.",
+    "specs": [
+      "Active Noise Cancellation (ANC)",
+      "40-Hour Battery Life",
+      "Bluetooth 5.3 with AAC/LDAC",
+      "Memory Foam Ear Cushions"
+    ],
+    "isFeatured": true,
+    "createdAt": "2026-09-01T10:00:00Z"
+  },
+  {
+    "id": "prod_2",
+    "name": "PulseTrack Ultra AMOLED Smartwatch",
+    "category": "audio",
+    "price": 2799,
+    "originalPrice": 5999,
+    "stock": 17,
+    "rating": 4.7,
+    "reviewsCount": 29,
+    "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80",
+    "description": "1.96-inch Always-on AMOLED display with precision SpO2 tracking, 24/7 heart rate monitoring, Bluetooth phone calling, and 100+ athletic sport modes.",
+    "specs": [
+      "1.96\" AMOLED Always-on Display",
+      "IP68 Water & Dust Resistant",
+      "BT 5.2 Calling with Speaker/Mic",
+      "7-Day Battery Backup"
+    ],
+    "isFeatured": true,
+    "createdAt": "2026-09-05T10:00:00Z",
+    "updatedAt": "2026-10-09T15:44:43.141Z"
+  },
+  {
+    "id": "prod_3",
+    "name": "ZenBook Studio 4K Mechanical Keyboard",
+    "category": "electronics",
+    "price": 4299,
+    "originalPrice": 8499,
+    "stock": 15,
+    "rating": 4.9,
+    "reviewsCount": 52,
+    "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&q=80",
+    "description": "Hot-swappable gasket-mounted mechanical keyboard with pre-lubed linear switches, per-key RGB backlighting, aircraft aluminum frame, and triple-mode connectivity (2.4G, BT, Type-C).",
+    "specs": [
+      "Gasket Mount with Sound Dampening",
+      "Hot-Swappable 5-Pin Sockets",
+      "CNC Anodized Aluminum Top",
+      "Triple Connection Modes"
+    ],
+    "isFeatured": true,
+    "createdAt": "2026-09-08T10:00:00Z"
+  },
+  {
+    "id": "prod_4",
+    "name": "PrecisionGlide 4K Optical Ergonomic Mouse",
+    "category": "electronics",
+    "price": 1899,
+    "originalPrice": 3499,
+    "stock": 32,
+    "rating": 4.6,
+    "reviewsCount": 22,
+    "image": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&q=80",
+    "description": "Ergonomic vertical contour design that reduces wrist strain by 65%. Equipped with 26,000 DPI optical sensor, silent tactile clicks, and hyper-fast metal scroll wheel.",
+    "specs": [
+      "26,000 DPI Optical Sensor",
+      "65° Natural Ergonomic Handshake Grip",
+      "Silent Click Mechanism",
+      "Rechargeable 500mAh Battery"
+    ],
+    "isFeatured": false,
+    "createdAt": "2026-09-10T10:00:00Z"
+  },
+  {
+    "id": "prod_5",
+    "name": "UltraView 27\" QHD 165Hz IPS Gaming Monitor",
+    "category": "electronics",
+    "price": 18999,
+    "originalPrice": 28999,
+    "stock": 7,
+    "rating": 4.9,
+    "reviewsCount": 41,
+    "image": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800&q=80",
+    "description": "2560x1440 QHD resolution with 165Hz refresh rate, 1ms response time, HDR400 certified color gamut (99% sRGB), AMD FreeSync Premium, and ergonomic height-adjustable stand.",
+    "specs": [
+      "27\" QHD (2560 x 1440) IPS Panel",
+      "165Hz Refresh Rate & 1ms MPRT",
+      "99% sRGB Color Accuracy",
+      "Tilt, Swivel, Pivot & Height Stand"
+    ],
+    "isFeatured": true,
+    "createdAt": "2026-09-12T10:00:00Z"
+  },
+  {
+    "id": "prod_6",
+    "name": "NovaCharge 100W GaN Triple-Port Fast Charger",
+    "category": "electronics",
+    "price": 2199,
+    "originalPrice": 4299,
+    "stock": 45,
+    "rating": 4.8,
+    "reviewsCount": 64,
+    "image": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800&q=80",
+    "description": "Ultra-compact Gallium Nitride (GaN III) fast charger capable of simultaneously powering laptops, phones, and tablets with dual USB-C (100W PD) and USB-A ports.",
+    "specs": [
+      "100W Power Delivery 3.0",
+      "GaN III Temperature Safety Tech",
+      "Dual USB-C + Single USB-A",
+      "Foldable Compact Travel Prongs"
+    ],
+    "isFeatured": false,
+    "createdAt": "2026-09-15T10:00:00Z"
+  },
+  {
+    "id": "prod_7",
+    "name": "BassPod Mini 360° Waterproof Bluetooth Speaker",
+    "category": "audio",
+    "price": 1499,
+    "originalPrice": 2999,
+    "stock": 28,
+    "rating": 4.5,
+    "reviewsCount": 19,
+    "image": "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=800&q=80",
+    "description": "Compact rugged cylindrical speaker delivering 360-degree punchy bass, IPX7 complete waterproof submergibility, 16-hour playtime, and True Wireless Stereo (TWS) pairing.",
+    "specs": [
+      "360° Omnidirectional Stereo",
+      "IPX7 Waterproof Submersible",
+      "16-Hour Battery Life",
+      "Built-in Noise-Cancelling Mic"
+    ],
+    "isFeatured": false,
+    "createdAt": "2026-09-18T10:00:00Z"
+  },
+  {
+    "id": "prod_8",
+    "name": "Minimalist Urban Waterproof Commuter Backpack",
+    "category": "fashion",
+    "price": 2299,
+    "originalPrice": 4999,
+    "stock": 20,
+    "rating": 4.8,
+    "reviewsCount": 33,
+    "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80",
+    "description": "25L capacity water-repellent ballistic nylon backpack with padded dedicated compartment for 16-inch laptops, hidden anti-theft passport pocket, and luggage trolley strap.",
+    "specs": [
+      "Fits up to 16\" Laptops",
+      "900D Water-Repellent Ballistic Oxford",
+      "YKK Weather-Proof Zippers",
+      "Anti-Theft Hidden Back Pocket"
+    ],
+    "isFeatured": true,
+    "createdAt": "2026-09-20T10:00:00Z"
+  },
+  {
+    "id": "prod_9",
+    "name": "Polarized Aviator Classic Titanium Sunglasses",
+    "category": "fashion",
+    "price": 1299,
+    "originalPrice": 2899,
+    "stock": 14,
+    "rating": 4.6,
+    "reviewsCount": 17,
+    "image": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800&q=80",
+    "description": "Ultra-lightweight aerospace titanium alloy aviator frames with 100% UV400 multi-layer polarized TAC lenses that eliminate blinding glare and reduce eye fatigue.",
+    "specs": [
+      "UV400 Category 3 Polarization",
+      "Titanium Flex Temples (Only 18g)",
+      "Scratch-Resistant Hydrophobic Coat",
+      "Leather Hard Case Included"
+    ],
+    "isFeatured": false,
+    "createdAt": "2026-09-22T10:00:00Z"
+  },
+  {
+    "id": "prod_10",
+    "name": "Oversized Heavyweight Premium Cotton Hoodie",
+    "category": "fashion",
+    "price": 1799,
+    "originalPrice": 3599,
+    "stock": 35,
+    "rating": 4.7,
+    "reviewsCount": 26,
+    "image": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&q=80",
+    "description": "450 GSM luxury brushed fleece cotton hoodie with drop-shoulder relaxed silhouette, double-layered thick hood, pre-shrunk fabric, and ribbed elastic cuffs.",
+    "specs": [
+      "450 GSM 100% Combed Cotton",
+      "Pre-Shrunk Brushed Fleece",
+      "Double-Layered Hood (No Drawstring)",
+      "Relaxed Boxy Drop-Shoulder Fit"
+    ],
+    "isFeatured": false,
+    "createdAt": "2026-09-25T10:00:00Z"
+  },
+  {
+    "id": "prod_11",
+    "name": "Ceramic Pour-Over Coffee Brewing Station",
+    "category": "home",
+    "price": 1999,
+    "originalPrice": 3899,
+    "stock": 12,
+    "rating": 4.9,
+    "reviewsCount": 28,
+    "image": "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=800&q=80",
+    "description": "Artisan matte black ceramic dripper set with heat-resistant borosilicate glass server (600ml), solid natural walnut wood base, and precision spiral extraction ribs.",
+    "specs": [
+      "Heat-Resistant Borosilicate Glass",
+      "Matte Glazed Ceramic V60 Dripper",
+      "Natural Solid Walnut Stand",
+      "600ml Capacity (2–4 Cups)"
+    ],
+    "isFeatured": true,
+    "createdAt": "2026-09-28T10:00:00Z"
+  },
+  {
+    "id": "prod_12",
+    "name": "Ambient Warm Desk Lamp with Wireless Qi Charger",
+    "category": "home",
+    "price": 2499,
+    "originalPrice": 4999,
+    "stock": 16,
+    "rating": 4.8,
+    "reviewsCount": 31,
+    "image": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&q=80",
+    "description": "Stepless touch-dimmable LED reading lamp with 3 color temperatures (2700K–6500K), built-in 15W fast wireless charging pad on wooden base, and 1-hour auto-off timer.",
+    "specs": [
+      "15W Fast Wireless Qi Charging Base",
+      "Stepless Dimming & 3 Color Modes",
+      "Flicker-Free Eye Care Diffuser",
+      "Natural Beech Wood Accent"
+    ],
+    "isFeatured": false,
+    "createdAt": "2026-10-01T10:00:00Z"
+  }
+]

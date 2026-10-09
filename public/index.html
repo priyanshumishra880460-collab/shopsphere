@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopSphere — Full-Stack E-Commerce Platform</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Chart.js for Admin Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Google Fonts & Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#EEF2FF',
+              100: '#E0E7FF',
+              500: '#6366F1',
+              600: '#4F46E5',
+              700: '#4338CA',
+              900: '#312E81'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- ================= TOP NAVIGATION BAR ================= -->
+  <header class="sticky top-0 z-40 glass-nav border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-3 sm:gap-6">
+      
+      <!-- Brand Logo -->
+      <a href="javascript:void(0)" onclick="navigateTo('store')" class="flex items-center gap-2.5 flex-shrink-0 group">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 flex items-center justify-center text-white font-extrabold text-xl shadow-md transform group-hover:scale-105 transition">
+          S
+        </div>
+        <div>
+          <span class="font-display font-bold text-xl sm:text-2xl tracking-tight text-slate-900 group-hover:text-indigo-600 transition">
+            ShopSphere<span class="text-indigo-600">.</span>
+          </span>
+          <span class="hidden sm:block text-[10px] font-bold uppercase tracking-wider text-slate-400 -mt-1">Full-Stack E-Commerce</span>
+        </div>
+      </a>
+
+      <!-- Live Search Bar -->
+      <div class="flex-1 max-w-xl relative hidden md:block">
+        <input 
+          id="nav-search-input"
+          type="text" 
+          placeholder="Search headphones, keyboards, backpacks, monitors..." 
+          oninput="handleSearch(this.value)"
+          class="w-full bg-slate-100 hover:bg-slate-100/80 focus:bg-white text-xs sm:text-sm text-slate-900 pl-10 pr-10 py-2.5 rounded-2xl border border-slate-200 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 focus:outline-none transition"
+        />
+        <span class="absolute left-3.5 top-3 text-slate-400 text-sm">🔍</span>
+        <button id="search-clear-btn" onclick="clearSearch()" class="hidden absolute right-3 top-2.5 text-xs font-bold text-slate-400 hover:text-slate-800 p-1">
+          ✕
+        </button>
+      </div>
+
+      <!-- Right Header Actions -->
+      <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+        
+        <!-- Quick Switch: Admin Dashboard (Prominent Pill) -->
+        <button 
+          id="nav-admin-quick-switch"
+          onclick="navigateTo('admin')" 
+          class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold border border-indigo-200/80 transition cursor-pointer"
+          title="Switch to Admin Dashboard"
+        >
+          <span>🛡️</span>
+          <span>Admin Portal</span>
+        </button>
+
+        <!-- Orders Link -->
+        <button 
+          onclick="navigateTo('orders')" 
+          class="p-2 sm:px-3 sm:py-2 rounded-xl text-slate-700 hover:bg-slate-100 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
+          title="Track Orders"
+        >
+          <span class="text-base">📦</span>
+          <span class="hidden sm:inline">My Orders</span>
+        </button>
+
+        <!-- Wishlist Button -->
+        <button 
+          onclick="showToast('Wishlist items highlighted with ♥ in catalog!', 'info')" 
+          class="relative p-2.5 rounded-xl hover:bg-slate-100 text-slate-700 transition cursor-pointer"
+          title="Saved Items"
+        >
+          <span class="text-lg">♥</span>
+          <span id="nav-wishlist-badge" class="hidden absolute -top-1 -right-1 w-5 h-5 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center">0</span>
+        </button>
+
+        <!-- Cart Button -->
+        <button 
+          onclick="openCartDrawer()" 
+          class="relative p-2.5 sm:px-4 sm:py-2 rounded-xl bg-slate-900 hover:bg-indigo-600 text-white text-xs font-bold flex items-center gap-2 shadow-sm transition cursor-pointer"
+          title="Shopping Cart"
+        >
+          <span class="text-base">🛒</span>
+          <span class="hidden sm:inline">Cart</span>
+          <span id="nav-cart-badge" class="hidden px-1.5 py-0.5 rounded-full bg-indigo-500 text-white text-[10px] font-extrabold">0</span>
+        </button>
+
+        <!-- User Auth Button / Menu -->
+        <div class="relative">
+          <!-- Guest State -->
+          <button 
+            id="nav-guest-btn" 
+            onclick="openAuthModal('customer')" 
+            class="px-3.5 py-2 rounded-xl border border-slate-300 hover:border-slate-800 text-slate-800 text-xs font-bold transition cursor-pointer"
+          >
+            Sign In
+          </button>
+
+          <!-- Logged In State -->
+          <div id="nav-user-menu" class="hidden flex items-center gap-2 pl-1">
+            <div class="text-right hidden sm:block">
+              <div id="nav-user-name" class="font-bold text-xs text-slate-900 leading-tight">User</div>
+              <span id="nav-user-role-badge" class="text-[9px] font-bold px-1 rounded bg-slate-100 text-slate-600">ROLE</span>
+            </div>
+            <button onclick="handleLogout()" class="px-2.5 py-1.5 text-xs text-slate-500 hover:text-rose-600 font-semibold hover:bg-slate-100 rounded-lg transition" title="Sign Out">
+              Sign Out
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Mobile Search Bar Below Header -->
+    <div class="md:hidden px-4 pb-3">
+      <div class="relative">
+        <input 
+          type="text" 
+          placeholder="Search products..." 
+          oninput="handleSearch(this.value)"
+          class="w-full bg-slate-100 text-xs text-slate-900 pl-9 pr-4 py-2 rounded-xl border border-slate-200 focus:outline-none"
+        />
+        <span class="absolute left-3 top-2 text-slate-400 text-xs">🔍</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= VIEW 1: STOREFRONT CATALOG (CUSTOMER PORTAL) ================= -->
+  <main id="view-store" class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full">
+    
+    <!-- Hero Banner (Feature Highlights) -->
+    <div class="relative rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-10 overflow-hidden shadow-xl mb-8">
+      <div class="relative z-10 max-w-2xl">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/30 text-indigo-200 border border-indigo-400/30 text-xs font-bold uppercase tracking-wider mb-4">
+          ✨ 2026 Full-Stack E-Commerce Edition
+        </span>
+        <h1 class="font-display text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+          Next-Generation Shopping with Live Order Tracking &amp; Instant Stock
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-300 mt-3 leading-relaxed">
+          Explore curated studio electronics, audio gear, and lifestyle essentials. Integrated with JWT secure authentication, real-time inventory management, and an administrative analytics engine.
+        </p>
+
+        <!-- Quick Credentials Banner (Viva Convenience) -->
+        <div class="mt-6 flex flex-wrap items-center gap-3 text-xs">
+          <button onclick="openAuthModal('admin')" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition shadow-sm flex items-center gap-1.5 cursor-pointer">
+            <span>🛡️</span>
+            <span>Demo Admin Login (admin@shopsphere.com)</span>
+          </button>
+          <button onclick="openAuthModal('customer')" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold transition backdrop-blur-xs flex items-center gap-1.5 cursor-pointer">
+            <span>👤</span>
+            <span>Demo Customer Login</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Trust Badges Bar Inside Banner -->
+      <div class="mt-8 pt-6 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs text-slate-300">
+        <div class="flex items-center gap-2">
+          <span class="text-lg">⚡</span>
+          <span><strong>Fast Dispatch</strong> across India</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-lg">🛡️</span>
+          <span><strong>100% Genuine</strong> verified stock</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-lg">📦</span>
+          <span><strong>Free Shipping</strong> above ₹1,999</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-lg">💳</span>
+          <span><strong>Secure Payments</strong> (UPI / Cards)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Filter Rail -->
+    <div class="mb-6 flex items-center justify-between gap-4 flex-wrap">
+      <div id="category-filter-rail" class="flex items-center gap-2 overflow-x-auto max-w-full pb-2">
+        <!-- Injected via app.js -->
+      </div>
+    </div>
+
+    <!-- Controls Bar: Price Slider & Sorting -->
+    <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-2xs mb-8 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+      
+      <!-- Left: Total Catalog Counter -->
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+        <span class="font-bold text-xs sm:text-sm text-slate-800" id="catalog-total-count">12 products</span>
+      </div>
+
+      <!-- Center & Right: Price Range Slider & Sort -->
+      <div class="flex flex-wrap items-center gap-4 sm:gap-6">
+        
+        <!-- Price Slider -->
+        <div class="flex items-center gap-2.5 text-xs text-slate-600">
+          <span class="font-semibold">Max Price:</span>
+          <input 
+            type="range" 
+            id="price-range-slider" 
+            min="1000" 
+            max="100000" 
+            step="1000" 
+            value="100000" 
+            oninput="handlePriceFilter(this.value)" 
+            class="w-24 sm:w-36 accent-indigo-600 cursor-pointer"
+          />
+          <span id="price-range-label" class="font-bold text-slate-900 min-w-[65px]">₹1,00,000</span>
+        </div>
+
+        <!-- Sorting Selector -->
+        <div class="flex items-center gap-2 text-xs text-slate-600">
+          <span class="font-semibold">Sort By:</span>
+          <select id="sort-selector" onchange="handleSortChange(this.value)" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-800 focus:border-indigo-600 focus:outline-none cursor-pointer">
+            <option value="default">Featured Items</option>
+            <option value="price_asc">Price: Low to High</option>
+            <option value="price_desc">Price: High to Low</option>
+            <option value="rating">Highest Rated ★</option>
+            <option value="newest">Newest Releases</option>
+          </select>
+        </div>
+
+        <!-- Reset Button -->
+        <button onclick="resetFilters()" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
+          Reset (✕)
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- Main Products Grid -->
+    <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <!-- Injected via app.js -->
+    </div>
+
+  </main>
+
+  <!-- ================= VIEW 2: ORDER TRACKING ("MY ORDERS") ================= -->
+  <main id="view-orders" class="hidden flex-1 max-w-4xl mx-auto px-4 sm:px-6 py-8 w-full">
+    <div class="flex items-center justify-between pb-6 mb-6 border-b border-slate-200">
+      <div>
+        <button onclick="navigateTo('store')" class="text-xs font-bold text-indigo-600 hover:underline flex items-center gap-1 mb-1">
+          <span>← Back to Catalog</span>
+        </button>
+        <h1 class="font-display text-2xl font-bold text-slate-900">My Orders &amp; Live Tracking</h1>
+        <p class="text-xs text-slate-500 mt-0.5">Real-time status updates and shipment journey for your purchases.</p>
+      </div>
+
+      <button onclick="loadUserOrders()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+        <span>🔄</span>
+        <span>Refresh Status</span>
+      </button>
+    </div>
+
+    <div id="orders-list-container">
+      <!-- Injected via app.js -->
+    </div>
+  </main>
+
+  <!-- ================= VIEW 3: ADMIN DASHBOARD ================= -->
+  <main id="view-admin" class="hidden flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    
+    <!-- Top Admin Bar -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-slate-200">
+      <div>
+        <button onclick="navigateTo('store')" class="text-xs font-bold text-indigo-600 hover:underline flex items-center gap-1 mb-1">
+          <span>← Back to Storefront</span>
+        </button>
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+          <h1 class="font-display text-2xl sm:text-3xl font-extrabold text-slate-900">ShopSphere Administration Center</h1>
+        </div>
+        <p class="text-xs text-slate-500 mt-1">Logged in as: <strong id="admin-profile-name" class="text-slate-800">Administrator</strong></p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button onclick="openAddProductModal()" class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-md transition flex items-center gap-1.5 cursor-pointer">
+          <span>+</span>
+          <span>Add New Product</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Analytics Stat Cards (5 Cards) -->
+    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+      
+      <div class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-2xs">
+        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Total Revenue</span>
+        <div id="stat-revenue" class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">₹0</div>
+        <span class="text-[11px] font-bold text-emerald-600 mt-1 block">✓ Verified Real-time</span>
+      </div>
+
+      <div class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-2xs">
+        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Total Orders</span>
+        <div id="stat-orders" class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">0</div>
+        <span class="text-[11px] text-slate-400 mt-1 block">Customer checkouts</span>
+      </div>
+
+      <div class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-2xs">
+        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Catalog Products</span>
+        <div id="stat-products" class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">0</div>
+        <span class="text-[11px] text-indigo-600 font-semibold mt-1 block">Active across 4 categories</span>
+      </div>
+
+      <div class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-2xs">
+        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Customers</span>
+        <div id="stat-customers" class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">0</div>
+        <span class="text-[11px] text-slate-400 mt-1 block">Registered profiles</span>
+      </div>
+
+      <div class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-2xs col-span-2 lg:col-span-1">
+        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Low Stock Alerts</span>
+        <div id="stat-low-stock" class="text-xl sm:text-2xl font-extrabold text-amber-600 mt-1">0</div>
+        <span class="text-[11px] text-amber-600 font-bold mt-1 block">Under 10 units remaining</span>
+      </div>
+
+    </div>
+
+    <!-- Visual Charts Row -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      
+      <!-- Chart 1: Revenue Trends (2 Cols) -->
+      <div class="lg:col-span-2 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="font-bold text-base text-slate-900">Revenue Growth Analytics</h3>
+            <p class="text-xs text-slate-400">Monthly revenue trends across all processed checkouts</p>
+          </div>
+          <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg">Historical + Live</span>
+        </div>
+        <div class="h-64">
+          <canvas id="admin-sales-chart"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 2: Category Breakdown (1 Col) -->
+      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div>
+          <h3 class="font-bold text-base text-slate-900">Category Share</h3>
+          <p class="text-xs text-slate-400">Revenue distribution by product department</p>
+        </div>
+        <div class="h-64 flex items-center justify-center pt-2">
+          <canvas id="admin-category-chart"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Admin Sub-navigation Tabs -->
+    <div class="bg-slate-200/70 p-1.5 rounded-2xl inline-flex gap-1 mb-6 flex-wrap">
+      <button id="admin-tab-btn-products" onclick="switchAdminTab('products')" class="px-4 py-2 font-bold text-sm rounded-xl bg-indigo-600 text-white shadow-sm transition">
+        Products Catalog (CRUD)
+      </button>
+      <button id="admin-tab-btn-inventory" onclick="switchAdminTab('inventory')" class="px-4 py-2 font-semibold text-sm rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+        Inventory Management
+      </button>
+      <button id="admin-tab-btn-orders" onclick="switchAdminTab('orders')" class="px-4 py-2 font-semibold text-sm rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+        Order Dispatch &amp; Tracking
+      </button>
+      <button id="admin-tab-btn-customers" onclick="switchAdminTab('customers')" class="px-4 py-2 font-semibold text-sm rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+        Customer Accounts
+      </button>
+    </div>
+
+    <!-- Admin Content Area -->
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden p-6">
+      
+      <!-- Tab 1: Products -->
+      <div id="admin-tab-content-products">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-bold text-base text-slate-900">Manage Products Catalog</h3>
+          <button onclick="openAddProductModal()" class="text-xs font-bold text-indigo-600 hover:underline">+ Add New Item</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="text-xs uppercase text-slate-400 bg-slate-50 border-b border-slate-100">
+              <tr>
+                <th class="py-3 px-4">Product</th>
+                <th class="py-3 px-4">Price</th>
+                <th class="py-3 px-4">Inventory</th>
+                <th class="py-3 px-4">Rating</th>
+                <th class="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-products-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 2: Inventory -->
+      <div id="admin-tab-content-inventory" class="hidden">
+        <h3 class="font-bold text-base text-slate-900 mb-4">Real-Time Inventory Stock Control</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="text-xs uppercase text-slate-400 bg-slate-50 border-b border-slate-100">
+              <tr>
+                <th class="py-3 px-4">Product</th>
+                <th class="py-3 px-4">Category</th>
+                <th class="py-3 px-4">Current Stock Units</th>
+                <th class="py-3 px-4">Status Alert</th>
+              </tr>
+            </thead>
+            <tbody id="admin-inventory-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 3: Orders -->
+      <div id="admin-tab-content-orders" class="hidden">
+        <h3 class="font-bold text-base text-slate-900 mb-4">Customer Orders &amp; Dispatch Status</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="text-xs uppercase text-slate-400 bg-slate-50 border-b border-slate-100">
+              <tr>
+                <th class="py-3 px-4">Order ID</th>
+                <th class="py-3 px-4">Customer</th>
+                <th class="py-3 px-4">Purchased Items</th>
+                <th class="py-3 px-4">Total</th>
+                <th class="py-3 px-4">Dispatch Status Dropdown</th>
+              </tr>
+            </thead>
+            <tbody id="admin-orders-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 4: Customers -->
+      <div id="admin-tab-content-customers" class="hidden">
+        <h3 class="font-bold text-base text-slate-900 mb-4">Registered User Profiles</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="text-xs uppercase text-slate-400 bg-slate-50 border-b border-slate-100">
+              <tr>
+                <th class="py-3 px-4">User</th>
+                <th class="py-3 px-4">Email</th>
+                <th class="py-3 px-4">Orders Placed</th>
+                <th class="py-3 px-4">Total Spend</th>
+                <th class="py-3 px-4">Registered Date</th>
+              </tr>
+            </thead>
+            <tbody id="admin-customers-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ================= CART DRAWER ================= -->
+  <div id="cart-drawer-backdrop" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 transition-opacity" onclick="closeCartDrawer()">
+    <div id="cart-drawer-panel" class="absolute right-0 top-0 bottom-0 max-w-md w-full bg-white shadow-2xl p-6 flex flex-col justify-between transform translate-x-full transition-transform duration-300" onclick="event.stopPropagation()">
+      
+      <!-- Drawer Header -->
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🛒</span>
+          <h3 class="font-bold text-lg text-slate-900">Your Shopping Cart</h3>
+        </div>
+        <button onclick="closeCartDrawer()" class="w-8 h-8 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-500 font-bold transition">✕</button>
+      </div>
+
+      <!-- Cart Items Scroll -->
+      <div id="cart-items-list" class="flex-1 overflow-y-auto py-4 space-y-3 custom-scrollbar"></div>
+
+      <!-- Drawer Footer Summary -->
+      <div class="pt-4 border-t border-slate-200 space-y-2 text-xs">
+        <div class="flex justify-between text-slate-600">
+          <span>Subtotal:</span>
+          <span id="cart-subtotal-val" class="font-bold text-slate-900">₹0</span>
+        </div>
+        <div class="flex justify-between text-slate-600">
+          <span>Standard GST (18%):</span>
+          <span id="cart-tax-val" class="font-bold text-slate-900">₹0</span>
+        </div>
+        <div class="flex justify-between text-slate-600">
+          <span>Shipping:</span>
+          <span id="cart-shipping-val" class="font-bold text-emerald-600">FREE</span>
+        </div>
+        <div class="flex justify-between text-sm font-extrabold text-slate-900 pt-2 border-t border-slate-100">
+          <span>Estimated Total:</span>
+          <span id="cart-total-val" class="text-indigo-600 text-base">₹0</span>
+        </div>
+
+        <button id="cart-checkout-btn" onclick="openCheckoutModal()" class="w-full mt-4 py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 text-white font-bold text-sm rounded-xl shadow-md transition cursor-pointer">
+          Proceed to Checkout →
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= CHECKOUT MODAL ================= -->
+  <div id="checkout-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full max-h-[92vh] overflow-hidden flex flex-col shadow-2xl border border-slate-200" onclick="event.stopPropagation()">
+      <div class="p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div>
+          <h3 class="font-bold text-lg text-slate-900">Shipping &amp; Payment Checkout</h3>
+          <p class="text-xs text-slate-500">Provide shipping coordinates to confirm order dispatch.</p>
+        </div>
+        <button onclick="closeCheckoutModal()" class="w-8 h-8 rounded-full hover:bg-slate-200 text-slate-500 font-bold">✕</button>
+      </div>
+
+      <form onsubmit="handlePlaceOrder(event)" class="p-6 overflow-y-auto space-y-4 flex-1">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Full Recipient Name *</label>
+            <input type="text" id="chk-name" required placeholder="e.g. Rahul Sharma" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Phone Number *</label>
+            <input type="text" id="chk-phone" required placeholder="+91 98765 43210" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Street Address Line *</label>
+          <input type="text" id="chk-address" required placeholder="House / Flat No, Apartment, Street" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">City *</label>
+            <input type="text" id="chk-city" required placeholder="Bengaluru" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">State *</label>
+            <input type="text" id="chk-state" required placeholder="Karnataka" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Pincode *</label>
+            <input type="text" id="chk-pincode" required placeholder="560102" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+          </div>
+        </div>
+
+        <!-- Payment Method Selection -->
+        <div class="pt-2">
+          <label class="block text-xs font-bold text-slate-700 mb-2">Select Payment Method</label>
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <label class="flex items-center gap-2 p-3 border border-indigo-200 bg-indigo-50/50 rounded-xl cursor-pointer">
+              <input type="radio" name="paymentMethod" value="UPI / Razorpay" checked class="accent-indigo-600" />
+              <span class="font-bold text-slate-900">UPI / QR (Instant)</span>
+            </label>
+            <label class="flex items-center gap-2 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50">
+              <input type="radio" name="paymentMethod" value="Credit / Debit Card" class="accent-indigo-600" />
+              <span class="font-bold text-slate-900">Credit / Debit Card</span>
+            </label>
+            <label class="flex items-center gap-2 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50">
+              <input type="radio" name="paymentMethod" value="Netbanking" class="accent-indigo-600" />
+              <span class="font-bold text-slate-900">Netbanking</span>
+            </label>
+            <label class="flex items-center gap-2 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50">
+              <input type="radio" name="paymentMethod" value="Cash on Delivery" class="accent-indigo-600" />
+              <span class="font-bold text-slate-900">Cash on Delivery</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Order Total Preview -->
+        <div class="p-3 bg-slate-100 rounded-xl flex items-center justify-between text-xs">
+          <span class="text-slate-600">Payable Amount:</span>
+          <span id="chk-summary-total" class="font-extrabold text-base text-indigo-700">₹0</span>
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow-md transition cursor-pointer">
+          Confirm Order &amp; Place Shipment ✓
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= PRODUCT DETAIL MODAL ================= -->
+  <div id="product-detail-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-6" onclick="closeProductDetailModal()">
+    <div class="relative bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8 shadow-2xl border border-slate-200 custom-scrollbar" onclick="event.stopPropagation()">
+      <button onclick="closeProductDetailModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 font-bold transition">✕</button>
+      <div id="pdp-modal-content"></div>
+    </div>
+  </div>
+
+  <!-- ================= AUTH MODAL (LOGIN / REGISTER) ================= -->
+  <div id="auth-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4" onclick="closeAuthModal()">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-200" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-display font-bold text-xl text-slate-900">Access ShopSphere</h3>
+        <button onclick="closeAuthModal()" class="text-slate-400 hover:text-slate-800 text-sm font-bold">✕</button>
+      </div>
+
+      <!-- Quick Viva Pre-fills (Professors Love This!) -->
+      <div class="p-3 bg-indigo-50/70 border border-indigo-100 rounded-xl mb-4 text-xs">
+        <span class="font-bold text-indigo-900 block mb-1">⚡ Quick Demo One-Click Fill:</span>
+        <div class="flex gap-2">
+          <button type="button" onclick="fillDemoAdmin()" class="px-2.5 py-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg transition text-[11px]">
+            Fill Admin
+          </button>
+          <button type="button" onclick="fillDemoCustomer()" class="px-2.5 py-1 bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 font-bold rounded-lg transition text-[11px]">
+            Fill Customer
+          </button>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="flex border-b border-slate-200 mb-4">
+        <button id="auth-tab-login" onclick="switchAuthTab('login')" class="flex-1 py-2 font-bold text-xs border-b-2 border-indigo-600 text-indigo-600">
+          Sign In
+        </button>
+        <button id="auth-tab-register" onclick="switchAuthTab('register')" class="flex-1 py-2 font-semibold text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-700">
+          Create Account
+        </button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="auth-form-login" onsubmit="handleLoginSubmit(event)" class="space-y-3.5">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
+          <input type="email" id="login-email" required placeholder="e.g. admin@shopsphere.com" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Password</label>
+          <input type="password" id="login-password" required placeholder="••••••••" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+        </div>
+        <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-md transition">
+          Sign In
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="auth-form-register" onsubmit="handleRegisterSubmit(event)" class="hidden space-y-3.5">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Full Name</label>
+          <input type="text" id="reg-name" required placeholder="e.g. Priyanshu Mishra" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
+          <input type="email" id="reg-email" required placeholder="name@example.com" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Phone Number</label>
+          <input type="text" id="reg-phone" placeholder="+91 98765 43210" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Create Password</label>
+          <input type="password" id="reg-password" required placeholder="••••••••" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+        </div>
+        <button type="submit" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition">
+          Create Customer Account
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ================= ADMIN ADD/EDIT PRODUCT MODAL ================= -->
+  <div id="product-edit-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full max-h-[92vh] overflow-hidden flex flex-col shadow-2xl border border-slate-200" onclick="event.stopPropagation()">
+      <div class="p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <h3 id="modal-product-title" class="font-bold text-base text-slate-900">Add Product</h3>
+        <button onclick="closeProductEditModal()" class="w-8 h-8 rounded-full hover:bg-slate-200 text-slate-500 font-bold">✕</button>
+      </div>
+
+      <form onsubmit="handleSaveProduct(event)" class="p-6 overflow-y-auto space-y-3.5 flex-1 text-xs">
+        <input type="hidden" id="form-product-id" />
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Product Title *</label>
+          <input type="text" id="form-prod-name" required placeholder="e.g. UltraSonic ANC Studio Headphones" class="w-full border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Category *</label>
+            <select id="form-prod-category" class="w-full border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none bg-white">
+              <option value="electronics">Electronics &amp; Gadgets</option>
+              <option value="audio">Audio &amp; Wearables</option>
+              <option value="fashion">Fashion &amp; Apparel</option>
+              <option value="home">Home &amp; Living</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Initial Stock (Units) *</label>
+            <input type="number" id="form-prod-stock" required min="0" value="20" class="w-full border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Selling Price (INR ₹) *</label>
+            <input type="number" id="form-prod-price" required min="1" placeholder="3499" class="w-full border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Original Price (MSRP ₹)</label>
+            <input type="number" id="form-prod-orig-price" min="1" placeholder="7999" class="w-full border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Image URL (Direct Unsplash / Cloud Link)</label>
+          <input type="url" id="form-prod-image" placeholder="https://images.unsplash.com/..." class="w-full border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Product Description</label>
+          <textarea id="form-prod-desc" rows="3" placeholder="Provide detailed selling points and features..." class="w-full border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Specifications (Comma-Separated)</label>
+          <input type="text" id="form-prod-specs" placeholder="Bluetooth 5.3, 40-Hr Battery, IPX7 Waterproof" class="w-full border border-slate-200 rounded-xl p-2.5 focus:border-indigo-600 focus:outline-none" />
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeProductEditModal()" class="px-4 py-2 text-slate-500 font-bold hover:bg-slate-100 rounded-xl">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-sm">Save &amp; Publish</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 max-w-sm"></div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-white border-t border-slate-200 text-xs text-slate-500 py-8 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="font-display font-bold text-slate-900 text-sm">ShopSphere<span class="text-indigo-600">.</span></span>
+        <span>• Complete Full-Stack E-Commerce Project</span>
+      </div>
+      <div>
+        Designed &amp; Developed by <strong>Priyanshu Mishra</strong> • Academic Project Submission 2026
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
