@@ -413,6 +413,138 @@ function renderCartDrawer() {
 }
 
 // ---------------- WISHLIST ----------------
+function openWishlistDrawer() {
+  renderWishlistDrawer();
+  const backdrop = document.getElementById('wishlist-drawer-backdrop');
+  const panel = document.getElementById('wishlist-drawer-panel');
+  if (backdrop && panel) {
+    backdrop.classList.remove('hidden');
+    setTimeout(() => panel.classList.remove('translate-x-full'), 10);
+  }
+}
+
+function closeWishlistDrawer() {
+  const backdrop = document.getElementById('wishlist-drawer-backdrop');
+  const panel = document.getElementById('wishlist-drawer-panel');
+  if (panel) panel.classList.add('translate-x-full');
+  setTimeout(() => {
+    if (backdrop) backdrop.classList.add('hidden');
+  }, 250);
+}
+
+function renderWishlistDrawer() {
+  const list = document.getElementById('wishlist-items-list');
+  const countEl = document.getElementById('wishlist-header-count');
+  const footer = document.getElementById('wishlist-footer');
+  if (!list) return;
+
+  if (countEl) countEl.innerText = `${wishlist.length} item${wishlist.length === 1 ? '' : 's'}`;
+
+  if (wishlist.length === 0) {
+    if (footer) footer.classList.add('hidden');
+    list.innerHTML = `
+      <div class="py-20 text-center text-slate-400">
+        <div class="w-16 h-16 rounded-full bg-rose-50 text-rose-500 text-2xl flex items-center justify-center mx-auto mb-3 shadow-inner">♥</div>
+        <p class="font-bold text-sm text-slate-800">Your wishlist is empty</p>
+        <p class="text-xs text-slate-400 mt-1 max-w-xs mx-auto">Explore products and click the heart icon on any product to save it here!</p>
+        <button onclick="closeWishlistDrawer()" class="mt-4 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 font-bold text-xs rounded-xl transition cursor-pointer">
+          Browse Products
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  if (footer) footer.classList.remove('hidden');
+
+  list.innerHTML = wishlist.map(prodId => {
+    const p = storeProducts.find(item => item.id === prodId);
+    if (!p) return '';
+
+    const isOutOfStock = p.stock <= 0;
+
+    return `
+      <div class="p-3.5 bg-slate-50/80 rounded-2xl border border-slate-200/80 flex items-center gap-3 hover:border-slate-300 transition">
+        <img src="${p.image}" alt="${escapeHtml(p.name)}" class="w-16 h-16 rounded-xl object-cover border border-slate-200 flex-shrink-0 cursor-pointer" onclick="closeWishlistDrawer(); openProductDetailModal('${p.id}')" />
+        <div class="flex-1 min-w-0">
+          <h4 class="font-bold text-xs text-slate-900 truncate hover:text-indigo-600 cursor-pointer" onclick="closeWishlistDrawer(); openProductDetailModal('${p.id}')">${escapeHtml(p.name)}</h4>
+          <p class="text-[11px] text-slate-400 capitalize mt-0.5">${escapeHtml(p.category)}</p>
+          <div class="flex items-center gap-2 mt-1">
+            <span class="font-bold text-xs text-slate-900">₹${Number(p.price).toLocaleString('en-IN')}</span>
+            ${p.originalPrice ? `<span class="text-[10px] text-slate-400 line-through">₹${Number(p.originalPrice).toLocaleString('en-IN')}</span>` : ''}
+            ${isOutOfStock 
+              ? '<span class="text-[9px] font-bold text-rose-700 bg-rose-50 px-1.5 py-0.5 rounded">Out of Stock</span>'
+              : (p.stock <= 10 ? `<span class="text-[9px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded">Only ${p.stock} left</span>` : '')}
+          </div>
+        </div>
+        <div class="flex flex-col gap-1.5 items-end flex-shrink-0">
+          <button 
+            onclick="moveWishlistToCart('${p.id}')" 
+            ${isOutOfStock ? 'disabled' : ''}
+            class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-200 disabled:text-slate-400 text-white text-[11px] font-bold rounded-lg transition shadow-xs cursor-pointer flex items-center gap-1"
+            title="Move to Cart"
+          >
+            <span>🛒</span> Add
+          </button>
+          <button 
+            onclick="removeWishlist('${p.id}')" 
+            class="w-6 h-6 rounded-full hover:bg-slate-200 text-slate-400 hover:text-rose-500 transition cursor-pointer flex items-center justify-center text-xs font-bold"
+            title="Remove from Wishlist"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function moveWishlistToCart(prodId) {
+  addToCart(prodId);
+  wishlist = wishlist.filter(id => id !== prodId);
+  saveWishlist();
+  renderProductsGrid(storeProducts);
+  renderWishlistDrawer();
+  showToast('Moved item to Cart! 🛒', 'success');
+}
+
+function removeWishlist(prodId) {
+  wishlist = wishlist.filter(id => id !== prodId);
+  saveWishlist();
+  renderProductsGrid(storeProducts);
+  renderWishlistDrawer();
+  showToast('Removed from Wishlist.');
+}
+
+function addAllWishlistToCart() {
+  const inStockIds = wishlist.filter(id => {
+    const p = storeProducts.find(item => item.id === id);
+    return p && p.stock > 0;
+  });
+
+  if (inStockIds.length === 0) {
+    showToast('No in-stock items in wishlist to add to cart.', 'error');
+    return;
+  }
+
+  inStockIds.forEach(id => addToCart(id));
+  wishlist = wishlist.filter(id => !inStockIds.includes(id));
+  saveWishlist();
+  renderProductsGrid(storeProducts);
+  closeWishlistDrawer();
+  openCartDrawer();
+  showToast(`Moved ${inStockIds.length} item(s) to Cart! 🛒`, 'success');
+}
+
+function clearWishlist() {
+  if (wishlist.length === 0) return;
+  wishlist = [];
+  saveWishlist();
+  renderProductsGrid(storeProducts);
+  renderWishlistDrawer();
+  showToast('Wishlist cleared.');
+}
+
 function toggleWishlist(prodId) {
   if (wishlist.includes(prodId)) {
     wishlist = wishlist.filter(id => id !== prodId);
@@ -423,6 +555,10 @@ function toggleWishlist(prodId) {
   }
   saveWishlist();
   renderProductsGrid(storeProducts);
+  const backdrop = document.getElementById('wishlist-drawer-backdrop');
+  if (backdrop && !backdrop.classList.contains('hidden')) {
+    renderWishlistDrawer();
+  }
 }
 
 // ---------------- PRODUCT DETAILS MODAL & REVIEWS ----------------
@@ -814,11 +950,35 @@ function updateAuthUI() {
   }
 }
 
+function updateDemoButtonHighlight(role) {
+  const adminBtn = document.getElementById('btn-demo-admin');
+  const custBtn = document.getElementById('btn-demo-customer');
+  if (!adminBtn || !custBtn) return;
+
+  const activeCls = 'px-2.5 py-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg transition text-[11px] shadow-xs cursor-pointer';
+  const inactiveCls = 'px-2.5 py-1 bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 font-bold rounded-lg transition text-[11px] cursor-pointer';
+
+  if (role === 'admin') {
+    adminBtn.className = activeCls;
+    custBtn.className = inactiveCls;
+  } else if (role === 'customer') {
+    custBtn.className = activeCls;
+    adminBtn.className = inactiveCls;
+  } else {
+    adminBtn.className = inactiveCls;
+    custBtn.className = inactiveCls;
+  }
+}
+
 function openAuthModal(mode = 'customer') {
   document.getElementById('auth-modal').classList.remove('hidden');
   switchAuthTab('login');
   if (mode === 'admin') {
     fillDemoAdmin();
+  } else if (mode === 'customer') {
+    fillDemoCustomer();
+  } else {
+    updateDemoButtonHighlight(null);
   }
 }
 
@@ -828,6 +988,9 @@ function closeAuthModal() {
 
 function switchAuthTab(tab) {
   const isLogin = tab === 'login';
+  if (!isLogin) {
+    updateDemoButtonHighlight(null);
+  }
   document.getElementById('auth-tab-login').className = isLogin 
     ? 'flex-1 py-2 font-bold text-xs border-b-2 border-indigo-600 text-indigo-600' 
     : 'flex-1 py-2 font-semibold text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-700';
@@ -844,6 +1007,7 @@ function fillDemoAdmin() {
   switchAuthTab('login');
   document.getElementById('login-email').value = 'admin@shopsphere.com';
   document.getElementById('login-password').value = 'admin123';
+  updateDemoButtonHighlight('admin');
   showToast('Filled Administrator demo credentials!');
 }
 
@@ -851,6 +1015,7 @@ function fillDemoCustomer() {
   switchAuthTab('login');
   document.getElementById('login-email').value = 'customer@shopsphere.com';
   document.getElementById('login-password').value = 'customer123';
+  updateDemoButtonHighlight('customer');
   showToast('Filled Customer demo credentials!');
 }
 

@@ -1,25 +1,5 @@
 [
   {
-    "id": "prod_1",
-    "name": "AeroSound Pro Wireless ANC Headphones",
-    "category": "audio",
-    "price": 3499,
-    "originalPrice": 7999,
-    "stock": 24,
-    "rating": 4.8,
-    "reviewsCount": 38,
-    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
-    "description": "Studio-grade Active Noise Cancellation headphones with 40mm titanium drivers, 40-hour ultra-long battery life, and Bluetooth 5.3 instant multi-point pairing.",
-    "specs": [
-      "Active Noise Cancellation (ANC)",
-      "40-Hour Battery Life",
-      "Bluetooth 5.3 with AAC/LDAC",
-      "Memory Foam Ear Cushions"
-    ],
-    "isFeatured": true,
-    "createdAt": "2026-09-01T10:00:00Z"
-  },
-  {
     "id": "prod_2",
     "name": "PulseTrack Ultra AMOLED Smartwatch",
     "category": "audio",

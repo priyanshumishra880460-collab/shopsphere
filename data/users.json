@@ -28,5 +28,15 @@
     "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80",
     "phone": "+91 99887 76655",
     "createdAt": "2026-09-20T00:00:00Z"
+  },
+  {
+    "id": "user_1794319343498",
+    "name": "Pm",
+    "email": "nm123@gmail.com",
+    "password": "$2b$10$xC1KH3YvAuJlG54cWHkMKeEq5plOkO//gkqjruMGG3xLtGL4WWl6O",
+    "phone": "7899876918",
+    "role": "customer",
+    "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=Pm",
+    "createdAt": "2026-11-10T14:02:23.498Z"
   }
 ]
