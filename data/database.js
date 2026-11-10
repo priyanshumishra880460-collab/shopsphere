@@ -1,12 +1,29 @@
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const bcrypt = require('bcryptjs');
 
-const DATA_DIR = path.join(__dirname);
+const isVercel = Boolean(process.env.VERCEL);
+const DATA_DIR = isVercel ? path.join(os.tmpdir(), 'shopsphere-data') : path.join(__dirname);
 
 // Ensure data directory exists
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
+}
+
+// When running on Vercel Serverless, copy pre-seeded data files to writable /tmp directory
+if (isVercel) {
+  ['users.json', 'products.json', 'categories.json', 'orders.json', 'reviews.json'].forEach(fileName => {
+    const src = path.join(__dirname, fileName);
+    const dest = path.join(DATA_DIR, fileName);
+    if (!fs.existsSync(dest) && fs.existsSync(src)) {
+      try {
+        fs.copyFileSync(src, dest);
+      } catch (err) {
+        console.warn(`Could not seed ${fileName} to /tmp:`, err);
+      }
+    }
+  });
 }
 
 const FILES = {

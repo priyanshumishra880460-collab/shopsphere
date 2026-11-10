@@ -48,12 +48,16 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Start Server
-app.listen(PORT, () => {
-  console.log(`====================================================`);
-  console.log(`🚀 ShopSphere Full-Stack Application Running!`);
-  console.log(`🌐 Local URL:  http://localhost:${PORT}`);
-  console.log(`👤 Customer:   customer@shopsphere.com / customer123`);
-  console.log(`🛡️ Admin:      admin@shopsphere.com / admin123`);
-  console.log(`====================================================`);
-});
+// Start Server (when run directly in node or local dev)
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`====================================================`);
+    console.log(`🚀 ShopSphere Full-Stack Application Running!`);
+    console.log(`🌐 Local URL:  http://localhost:${PORT}`);
+    console.log(`👤 Customer:   customer@shopsphere.com / customer123`);
+    console.log(`🛡️ Admin:      admin@shopsphere.com / admin123`);
+    console.log(`====================================================`);
+  });
+}
+
+module.exports = app;
